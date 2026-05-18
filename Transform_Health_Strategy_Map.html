@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transform Health — Strategy Map 2027–2030</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#f0f4f8;color:#1a1a1a;font-size:14px}
+
+/* ── App wrapper ──────────────────────────── */
+#app{max-width:1480px;margin:0 auto;padding:16px}
+
+/* ── Header ──────────────────────────────── */
+#header{background:linear-gradient(135deg,#1F4E79 0%,#2E75B6 100%);border-radius:12px;padding:20px 28px 16px;margin-bottom:12px;color:#fff}
+#header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+#logo-area h1{font-size:22px;font-weight:800;letter-spacing:-0.3px}
+#logo-area p{font-size:13px;opacity:.85;margin-top:3px}
+#toc-toggle{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap;transition:background .2s}
+#toc-toggle:hover{background:rgba(255,255,255,.28)}
+#toc-box{margin-top:14px;background:rgba(255,255,255,.12);border-radius:8px;padding:12px 16px;font-size:13px;line-height:1.6;border-left:3px solid rgba(255,255,255,.5)}
+#toc-box.hidden{display:none}
+#toc-box strong{color:#BDD7EE}
+
+/* ── Controls ────────────────────────────── */
+#controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.ctrl-group{display:flex;gap:6px;align-items:center}
+.ctrl-label{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px}
+.filter-btn{background:#fff;border:2px solid #d0dae6;border-radius:20px;padding:5px 14px;cursor:pointer;font-size:12px;font-weight:600;color:#1F4E79;transition:all .18s}
+.filter-btn:hover{border-color:#2E75B6;background:#e8f1fa}
+.filter-btn.active{background:#1F4E79;color:#fff;border-color:#1F4E79}
+.filter-btn.active:hover{background:#163d5f}
+#toggle-arrows{background:#fff;border:2px solid #d0dae6;border-radius:20px;padding:5px 14px;cursor:pointer;font-size:12px;font-weight:600;color:#555;transition:all .18s}
+#toggle-arrows:hover{border-color:#888}
+#toggle-arrows.active{background:#E2EFDA;border-color:#70a874;color:#2d6b2f}
+.ctrl-sep{width:1px;height:26px;background:#d0dae6}
+
+/* ── Map section ─────────────────────────── */
+#map-section{display:flex;gap:0;overflow-x:auto;background:#fff;border-radius:12px;border:1px solid #d0dae6;box-shadow:0 2px 12px rgba(31,78,121,.08)}
+
+/* ── Level labels ────────────────────────── */
+#level-labels{flex:0 0 90px;display:flex;flex-direction:column;border-right:2px solid #d0dae6;z-index:2}
+#level-labels .ll-spacer{height:40px;background:#f8fafc;border-bottom:1px solid #d0dae6}
+.ll{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg)}
+.ll.global{background:#1F4E79;color:#fff;flex:0 0 220px;border-bottom:2px solid #163d5f}
+.ll.regional{background:#2E75B6;color:#fff;flex:0 0 165px;border-bottom:2px solid #1a5a96}
+.ll.national{background:#BDD7EE;color:#1F4E79;flex:1}
+
+/* ── Timeline area ───────────────────────── */
+#timeline-area{flex:1;min-width:900px;position:relative}
+
+/* ── Year headers ────────────────────────── */
+#year-headers{display:grid;grid-template-columns:120px 240px 240px 220px 220px;height:40px;border-bottom:2px solid #d0dae6;background:#f8fafc;position:sticky;top:0;z-index:10}
+.yh{display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#1F4E79;border-right:1px solid #d0dae6;letter-spacing:.3px}
+.yh:last-child{border-right:none}
+.yh.active-year{background:#e8f1fa}
+
+/* ── Bands ───────────────────────────────── */
+.band{display:grid;grid-template-columns:120px 240px 240px 220px 220px;position:relative}
+#global-band{min-height:220px;background:#f0f5fb;border-bottom:2px solid #163d5f}
+#regional-band{min-height:165px;background:#f5f8fc;border-bottom:2px solid #1a5a96}
+#national-band{min-height:340px;background:#f8fbfd}
+
+.year-col{padding:8px 6px;display:flex;flex-direction:column;gap:6px;border-right:1px dashed #d0dae6;min-height:inherit}
+.year-col:last-child{border-right:none}
+
+/* ── Cards ───────────────────────────────── */
+.card{border-radius:9px;padding:8px 9px;cursor:pointer;transition:all .2s;position:relative;border:1.5px solid transparent;min-height:58px}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(31,78,121,.18);z-index:20}
+.card.milestone{background:#E2EFDA;border-color:#a8c8a8}
+.card.outcome{background:#F4B942;border-color:#d4961a;color:#1a1a1a}
+.card.dimmed{opacity:.2;transform:none !important;box-shadow:none !important}
+.card.highlighted{box-shadow:0 0 0 3px #F4B942;z-index:25}
+
+.card-obj{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px}
+.card-label{font-size:11px;font-weight:700;color:#1F4E79;line-height:1.25}
+.card.outcome .card-label{color:#1a1a1a}
+.card-sub{font-size:10px;color:#555;margin-top:2px;line-height:1.3}
+.card.outcome .card-sub{color:#3a2800}
+.card-countries{font-size:9px;color:#888;margin-top:3px;font-style:italic}
+
+/* ── Tooltip ─────────────────────────────── */
+#tooltip{position:fixed;background:#1F4E79;color:#fff;border-radius:10px;padding:12px 16px;font-size:12px;max-width:300px;z-index:1000;pointer-events:none;opacity:0;transition:opacity .18s;box-shadow:0 8px 30px rgba(0,0,0,.3);line-height:1.5}
+#tooltip.visible{opacity:1}
+#tooltip .tt-title{font-weight:800;font-size:13px;margin-bottom:6px;color:#BDD7EE}
+#tooltip .tt-desc{margin-bottom:6px;color:#e8f1fa}
+#tooltip .tt-countries{font-size:11px;color:#9fc5e8;font-style:italic}
+#tooltip .tt-link{font-size:11px;color:#E2EFDA;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.2)}
+
+/* ── SVG arrows ──────────────────────────── */
+#arrows-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.arrow-path{stroke-width:2;fill:none}
+.arrow-up{stroke:#70a874;stroke-dasharray:none}
+.arrow-down{stroke:#F4B942;stroke-dasharray:6 3}
+.arrow-label{font-size:9px;fill:#555;font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+
+/* ── Impact panel ────────────────────────── */
+#impact-panel{flex:0 0 268px;background:linear-gradient(170deg,#1F4E79 0%,#163d5f 100%);color:#fff;padding:20px 16px;border-left:2px solid #163d5f;display:flex;flex-direction:column;gap:0;border-radius:0 12px 12px 0}
+#impact-headline{font-size:15px;font-weight:800;line-height:1.25;color:#fff;margin-bottom:4px}
+#impact-sub{font-size:11px;color:#9fc5e8;margin-bottom:14px;line-height:1.4}
+.country-row{display:flex;align-items:baseline;gap:6px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.country-row:last-of-type{border-bottom:none}
+.cr-flag{font-size:15px;flex:0 0 22px}
+.cr-name{font-size:11px;color:#BDD7EE;flex:1;font-weight:600}
+.cr-fig{font-size:12px;font-weight:800;color:#fff;white-space:nowrap}
+.cr-fig span{font-size:10px;font-weight:400;color:#9fc5e8}
+#impact-total{margin-top:12px;background:rgba(244,185,66,.2);border:1px solid rgba(244,185,66,.5);border-radius:8px;padding:10px 12px}
+#impact-total .it-num{font-size:20px;font-weight:900;color:#F4B942;line-height:1}
+#impact-total .it-label{font-size:11px;color:#BDD7EE;margin-top:3px;line-height:1.3}
+#impact-context{margin-top:10px;font-size:10px;color:#7aa8c8;line-height:1.5;font-style:italic}
+
+/* ── Legend ──────────────────────────────── */
+#legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;padding:10px 14px;background:#fff;border-radius:8px;border:1px solid #d0dae6;font-size:11px;color:#555}
+.leg-item{display:flex;align-items:center;gap:6px}
+.leg-dot{width:14px;height:14px;border-radius:4px;flex:0 0 14px}
+.leg-line{width:24px;height:3px;flex:0 0 24px}
+
+/* ── Print ───────────────────────────────── */
+@media print{
+  body{background:#fff;font-size:11px}
+  #app{padding:0}
+  #controls,#toc-toggle,#tooltip{display:none}
+  #map-section{box-shadow:none;border:1px solid #ccc;overflow:visible}
+  .card:hover{transform:none;box-shadow:none}
+  #impact-panel{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .ll{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .band{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #header{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .card.milestone{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .card.outcome{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{size:A4 landscape;margin:10mm}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ── HEADER ──────────────────────────────────── -->
+<div id="header">
+  <div id="header-top">
+    <div id="logo-area">
+      <h1>Transform Health Coalition · Strategy Map 2027–2030</h1>
+      <p>Fondation Botnar Grant Application &nbsp;|&nbsp; National · Regional · Global Engagement</p>
+    </div>
+    <button id="toc-toggle" onclick="toggleToc()">▼ Theory of Change</button>
+  </div>
+  <div id="toc-box">
+    Transform Health works at <strong>three levels simultaneously</strong>. <strong>National coalitions</strong> build enabling environments — laws, regulations, investment accountability, workforce — in 9 priority countries. <strong>Regional frameworks</strong> (Africa Continental and Asia Regional) set continental standards grounded in national evidence and generate political momentum for global action. <strong>Global advocacy</strong> at WHO and WHA establishes binding norms. The levels are interlocking: national evidence legitimises global advocacy; global norms give national coalitions the authority to press their governments to act; regional frameworks translate between the two. <strong>The result: stronger digital health systems serving over 1 billion people.</strong>
+  </div>
+</div>
+
+<!-- ── CONTROLS ─────────────────────────────────── -->
+<div id="controls">
+  <div class="ctrl-group">
+    <span class="ctrl-label">Objective</span>
+    <button class="filter-btn active" data-filter="obj" data-val="all">All</button>
+    <button class="filter-btn" data-filter="obj" data-val="1">Obj 1 — Policy &amp; Law</button>
+    <button class="filter-btn" data-filter="obj" data-val="2">Obj 2 — Data Governance</button>
+    <button class="filter-btn" data-filter="obj" data-val="3">Obj 3 — Investment</button>
+    <button class="filter-btn" data-filter="obj" data-val="45">Obj 4/5 — Coalition</button>
+  </div>
+  <div class="ctrl-sep"></div>
+  <div class="ctrl-group">
+    <span class="ctrl-label">Level</span>
+    <button class="filter-btn active" data-filter="level" data-val="all">All Levels</button>
+    <button class="filter-btn" data-filter="level" data-val="global">Global</button>
+    <button class="filter-btn" data-filter="level" data-val="regional">Regional</button>
+    <button class="filter-btn" data-filter="level" data-val="national">National</button>
+  </div>
+  <div class="ctrl-sep"></div>
+  <button id="toggle-arrows" class="active" onclick="toggleArrows()">— Hide Connections</button>
+</div>
+
+<!-- ── MAIN MAP ─────────────────────────────────── -->
+<div id="map-section">
+
+  <!-- Level labels -->
+  <div id="level-labels">
+    <div class="ll-spacer"></div>
+    <div class="ll global">Global</div>
+    <div class="ll regional">Regional</div>
+    <div class="ll national">National</div>
+  </div>
+
+  <!-- Timeline area -->
+  <div id="timeline-area">
+
+    <!-- Year headers -->
+    <div id="year-headers">
+      <div class="yh">2026 →</div>
+      <div class="yh">2027</div>
+      <div class="yh">2028</div>
+      <div class="yh">2029</div>
+      <div class="yh">2030</div>
+    </div>
+
+    <!-- GLOBAL band -->
+    <div class="band" id="global-band">
+      <div class="year-col" id="gc-2026"></div>
+      <div class="year-col" id="gc-2027"></div>
+      <div class="year-col" id="gc-2028"></div>
+      <div class="year-col" id="gc-2029"></div>
+      <div class="year-col" id="gc-2030"></div>
+    </div>
+
+    <!-- REGIONAL band -->
+    <div class="band" id="regional-band">
+      <div class="year-col" id="rc-2026"></div>
+      <div class="year-col" id="rc-2027"></div>
+      <div class="year-col" id="rc-2028"></div>
+      <div class="year-col" id="rc-2029"></div>
+      <div class="year-col" id="rc-2030"></div>
+    </div>
+
+    <!-- NATIONAL band -->
+    <div class="band" id="national-band">
+      <div class="year-col" id="nc-2026"></div>
+      <div class="year-col" id="nc-2027"></div>
+      <div class="year-col" id="nc-2028"></div>
+      <div class="year-col" id="nc-2029"></div>
+      <div class="year-col" id="nc-2030"></div>
+    </div>
+
+    <!-- SVG arrows overlay -->
+    <svg id="arrows-svg">
+      <defs>
+        <marker id="arrowhead-up" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+          <path d="M0,8 L4,0 L8,8 Z" fill="#70a874"/>
+        </marker>
+        <marker id="arrowhead-down" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+          <path d="M0,0 L4,8 L8,0 Z" fill="#F4B942"/>
+        </marker>
+      </defs>
+    </svg>
+
+  </div><!-- /timeline-area -->
+
+  <!-- Impact panel -->
+  <div id="impact-panel">
+    <div id="impact-headline">Over 1 billion people served</div>
+    <div id="impact-sub">in 30+ countries through Transform Health's work by 2030</div>
+
+    <div class="country-row"><span class="cr-flag">🇰🇪</span><span class="cr-name">Kenya</span><span class="cr-fig">56<span>m</span></span></div>
+    <div class="country-row"><span class="cr-flag">🇸🇳</span><span class="cr-name">Senegal</span><span class="cr-fig">18<span>m</span></span></div>
+    <div class="country-row"><span class="cr-flag">🇮🇳</span><span class="cr-name">India (Rajasthan)</span><span class="cr-fig">81<span>m</span></span></div>
+    <div class="country-row"><span class="cr-flag">🇮🇩</span><span class="cr-name">Indonesia</span><span class="cr-fig">283<span>m</span></span></div>
+    <div class="country-row"><span class="cr-flag">🇲🇽</span><span class="cr-name">Mexico</span><span class="cr-fig">132<span>m</span></span></div>
+    <div class="country-row"><span class="cr-flag">🇪🇨</span><span class="cr-name">Ecuador</span><span class="cr-fig">18<span>m</span></span></div>
+    <div class="country-row"><span class="cr-flag">🇹🇿</span><span class="cr-name">Tanzania</span><span class="cr-fig">67<span>m</span></span></div>
+    <div class="country-row"><span class="cr-flag">🇬🇭</span><span class="cr-name">Ghana</span><span class="cr-fig">34<span>m</span></span></div>
+    <div class="country-row"><span class="cr-flag">🇨🇴</span><span class="cr-name">Colombia</span><span class="cr-fig">52<span>m</span></span></div>
+    <div class="country-row"><span class="cr-flag">🌍</span><span class="cr-name">13 countries (HDG)</span><span class="cr-fig">770<span>m</span></span></div>
+
+    <div id="impact-total">
+      <div class="it-num">1B+</div>
+      <div class="it-label">people in 30+ countries served through Transform Health's coalition work</div>
+    </div>
+    <div id="impact-context">4.5 billion people currently lack access to essential healthcare. Digital health transformation — with the right enabling environment — can change this.</div>
+  </div>
+
+</div><!-- /map-section -->
+
+<!-- ── LEGEND ────────────────────────────────────── -->
+<div id="legend">
+  <strong style="color:#1F4E79;margin-right:4px">Legend:</strong>
+  <div class="leg-item"><div class="leg-dot" style="background:#E2EFDA;border:1.5px solid #a8c8a8"></div> Milestone</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#F4B942;border:1.5px solid #d4961a"></div> Key Outcome</div>
+  <div class="leg-item" style="margin-left:8px"><svg width="24" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#70a874" stroke-width="2"/><polygon points="20,2 24,5 20,8" fill="#70a874"/></svg> National → Global (↑)</div>
+  <div class="leg-item"><svg width="24" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#F4B942" stroke-width="2" stroke-dasharray="4 2"/><polygon points="20,2 24,5 20,8" fill="#F4B942"/></svg> Global → National (↓)</div>
+  <div class="leg-item" style="margin-left:8px;color:#888;font-size:11px">Hover cards for full detail · Click objective buttons to filter</div>
+</div>
+
+</div><!-- /app -->
+
+<!-- ── TOOLTIP ────────────────────────────────────── -->
+<div id="tooltip">
+  <div class="tt-title" id="tt-title"></div>
+  <div class="tt-desc" id="tt-desc"></div>
+  <div class="tt-countries" id="tt-countries"></div>
+  <div class="tt-link" id="tt-link"></div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════════════════════
+const MILESTONES = [
+  // ── 2026 PREPARATION PERIOD ─────────────────────────
+  {id:'g-prep-2026', year:2026, level:'global', obj:[5],
+   label:'Coalition Foundations', sub:'strategy & partnerships set', type:'milestone',
+   desc:'Transform Health establishes the global coalition architecture for 2027–2030: Roadmap goals agreed with 230+ partners, cluster group structure designed, Digital Health Week programming planned, and grant baseline documentation completed.',
+   countries:'Global — 230+ coalition partners',
+   link:'Lays groundwork for 2027 activation of 10+ cluster groups'},
+
+  {id:'r-prep-2026', year:2026, level:'regional', obj:[2],
+   label:'Regional Scoping', sub:'Africa & Asia frameworks begun', type:'milestone',
+   desc:'Scoping and consultations begin for both the Africa Continental and Asia Regional Health Data Governance Frameworks. Africa CDC and WHO WPRO/SEARO engaged as lead institutional partners. Draft framework outlines circulated for Member State comment.',
+   countries:'Africa (Africa CDC / AU) · Asia (WHO WPRO, SEARO)',
+   link:'↑ Feeds fully developed frameworks in early 2027'},
+
+  {id:'n-prep-2026', year:2026, level:'national', obj:[1,4],
+   label:'NC Preparation', sub:'9 NCs onboarded', type:'milestone',
+   desc:'Grant preparation period: all 9 national coalitions (Senegal, Kenya, India-Rajasthan, Indonesia, Ecuador, Mexico, Tanzania, Ghana, Colombia) formally onboarded. NC coordinators appointed, MoU frameworks drafted, baseline assessments begun for digital health legislative landscape in each country.',
+   countries:'9 NCs: Senegal, Kenya, India (Rajasthan), Indonesia, Ecuador, Mexico, Tanzania, Ghana, Colombia',
+   link:'Enables formal MoH commitments in all 9 NCs by June 2027'},
+
+  // ── GLOBAL ──────────────────────────────────────────
+  {id:'g-who-gsdh', year:2027, level:'global', obj:[1],
+   label:'WHO GSDH', sub:'TH recs included, May 2027', type:'milestone',
+   desc:'WHO Global Strategy on Digital Health 2028–2033 includes Transform Health recommendations on inclusion, rights-based governance, sustainable financing and civil society participation.',
+   countries:'Global — all WHO Member States',
+   link:'↓ Flows down to give NCs 1.1–1.4 normative authority'},
+
+  {id:'g-wha-hdg', year:2027, level:'global', obj:[2],
+   label:'WHA HDG Resolution', sub:'endorsed, May 2027', type:'milestone',
+   desc:'Global health data governance framework/resolution endorsed by Member States through the World Health Assembly. Creates binding normative standard for all countries.',
+   countries:'Global (all WHA Member States)',
+   link:'↓ Mandates national HDG legislative reform in 23 countries'},
+
+  {id:'g-roadmap', year:2027, level:'global', obj:[5],
+   label:'Roadmap Mapping', sub:'200+ orgs, Dec 2027', type:'milestone',
+   desc:'Public Roadmap to 2030 mapping page lists 200+ organisations across all 5 goals, updated quarterly. 10+ goal-based cluster groups activated, each delivering at least one output.',
+   countries:'230+ coalition partners globally',
+   link:'Platform for national coalition outputs to reach global audience'},
+
+  {id:'g-clusters', year:2027, level:'global', obj:[5],
+   label:'10+ Cluster Groups', sub:'activated, Dec 2027', type:'milestone',
+   desc:'At least 10 goal-based cluster groups activated at national and global levels, each delivering at least one publicly available output by December 2027, spanning all 5 Roadmap goals.',
+   countries:'Global coalition',
+   link:'Aggregates national outputs into collective global advocacy'},
+
+  {id:'g-cs-mech', year:2028, level:'global', obj:[1],
+   label:'CS Accountability', sub:'mechanism piloted', type:'milestone',
+   desc:'Civil society accountability mechanism (shadow report model) designed and piloted by May 2028. Recognised within WHA-linked processes by June 2028. Draws on accountability data from 9 NCs.',
+   countries:'Global (aggregates 9 NC data)',
+   link:'← NC accountability reports (Obj 1.4) feed this mechanism'},
+
+  {id:'g-shadow', year:2028, level:'global', obj:[1],
+   label:'Annual Shadow Reports', sub:'to WHA, 2028–2030', type:'milestone',
+   desc:'Annual civil society shadow reports produced and submitted to WHA-linked processes, aggregating accountability data from 9 NCs and Objective 2 HDG country reviews.',
+   countries:'Global (9 NC + 23 HDG country data)',
+   link:'↑ National accountability evidence reaches WHO level annually'},
+
+  {id:'g-oecd', year:2028, level:'global', obj:[3],
+   label:'OECD DAC / SHA', sub:'taxonomy integrated', type:'milestone',
+   desc:'Digital health investment taxonomy integrated into at least 1 global financial tracking mechanism (OECD DAC Creditor Reporting System or System of Health Accounts) by end 2028.',
+   countries:'Global (OECD, WHO, World Bank)',
+   link:'↑ Built on national taxonomy adoption (20 countries) + 6 multilateral agencies'},
+
+  {id:'g-dhw', year:2028, level:'global', obj:[5],
+   label:'Digital Health Week', sub:'Roadmap-structured, annual', type:'milestone',
+   desc:'Digital Health Week structured around the 5 Roadmap goals. At least one session per goal features a cluster group output. Primary platform for making national progress visible globally.',
+   countries:'230+ coalition partners globally',
+   link:'← National coalition outputs profiled and validated'},
+
+  {id:'g-coalition70', year:2029, level:'global', obj:[5],
+   label:'70% Coalition Active', sub:'collective action', type:'outcome',
+   desc:'70% of Transform Health\'s 230 coalition partners (161 organisations) actively engaged and participating in collective action around the 5 Roadmap goals by December 2029.',
+   countries:'230+ partners globally',
+   link:'Reflects strength of national-to-global pipeline'},
+
+  {id:'g-accountability-campaign', year:2030, level:'global', obj:[5],
+   label:'Global Accountability Campaign', sub:'7M reach, 2029–2030', type:'outcome',
+   desc:'High-visibility flagship global accountability campaign highlighting progress, gaps and priorities towards digital health for UHC. Cumulative reach of at least 7 million people.',
+   countries:'Global',
+   link:'↑ Draws on NC accountability reports and civil society shadow data'},
+
+  // ── REGIONAL ───────────────────────────────────────
+  {id:'r-africa-endorsed', year:2027, level:'regional', obj:[2],
+   label:'Africa CF Endorsed', sub:'AU Summit, Jan/Feb 2027', type:'milestone',
+   desc:'Africa Continental Health Data Governance Framework endorsed by AU Member States at the AU Summit (January/February 2027). Led by Africa CDC with Transform Health support.',
+   countries:'Africa (54 AU Member States)',
+   link:'↑ Grounded in national HDG landscape reviews · ↑ Strengthens WHA Resolution case'},
+
+  {id:'r-africa-dom', year:2027, level:'regional', obj:[2],
+   label:'Africa CF Domestication', sub:'plan agreed, Jul 2027', type:'milestone',
+   desc:'Africa Continental Framework domestication and implementation plan agreed July 2027. Defines TH\'s government technical support role. Triggers national legislative reform across AU Member States.',
+   countries:'Africa (AU Member States + Africa CDC + HELINA)',
+   link:'↓ Flows down to trigger national HDG regulation development'},
+
+  {id:'r-asia-developed', year:2027, level:'regional', obj:[2],
+   label:'Asia RF Developed', sub:'Mar 2027', type:'milestone',
+   desc:'Asia Regional Health Data Governance Framework developed in partnership with WHO WPRO/SEARO, ASEAN, Asian Development Bank, APEC and UNU-IIGH by March 2027.',
+   countries:'Asia Pacific (WHO WPRO, SEARO, ASEAN)',
+   link:'↑ Grounded in Indonesia + Asian NC landscape reviews'},
+
+  {id:'r-asia-endorsed', year:2027, level:'regional', obj:[2],
+   label:'Asia RF Endorsed', sub:'WHO Committees, Oct 2027', type:'milestone',
+   desc:'Asia Regional HDG Framework endorsed at WHO WPRO and SEARO Regional Committee meetings by October 2027. Creates Member State reporting obligations.',
+   countries:'Asia (WHO WPRO, SEARO Member States)',
+   link:'↑ Asian momentum feeds WHA Resolution · ↓ Mandates national reporting'},
+
+  {id:'r-africa-stress', year:2028, level:'regional', obj:[2],
+   label:'Africa CF Stress Test', sub:'published, Jul 2028', type:'milestone',
+   desc:'Africa Continental Framework stress testing of provisions completed and published by July 2028. Validates the framework against practical national implementation scenarios.',
+   countries:'Africa',
+   link:'↓ Validated framework guides national HDG law development'},
+
+  {id:'r-asia-impl', year:2028, level:'regional', obj:[2],
+   label:'Asia RF Implementation', sub:'technical support deployed', type:'milestone',
+   desc:'Technical support approach adapted to Asia Regional Framework and deployed with Asian country governments to strengthen national HDG legislative and regulatory frameworks.',
+   countries:'Asia (Indonesia + other Asian NCs)',
+   link:'↓ Regional standards applied in national legislative reform'},
+
+  {id:'r-monitoring-2029', year:2029, level:'regional', obj:[2],
+   label:'Regional Framework Monitoring', sub:'Africa & Asia progress reviews', type:'milestone',
+   desc:'Midpoint monitoring of Africa Continental and Asia Regional HDG Framework domestication progress. Africa CDC-led review assesses which AU Member States have enacted framework-aligned legislation. WHO WPRO/SEARO report published. Findings feed WHA shadow report and global accountability campaign.',
+   countries:'Africa (AU Member States) · Asia (WHO WPRO/SEARO Member States)',
+   link:'↑ Regional progress data feeds annual WHA-linked shadow report'},
+
+  {id:'r-outcome-2030', year:2030, level:'regional', obj:[2],
+   label:'Regional Frameworks Embedded', sub:'Continental & Asia adoption confirmed', type:'outcome',
+   desc:'Africa Continental and Asia Regional Health Data Governance Frameworks confirmed as embedded in continental governance architecture. 23-country national HDG law reform validated against regional standards. Frameworks formally referenced in GIDH country dashboards.',
+   countries:'Africa (AU/Africa CDC) · Asia (WHO WPRO, SEARO)',
+   link:'↑ National HDG laws in 23 countries aligned to regional standards · ↓ Sustains reform beyond 2030'},
+
+  // ── NATIONAL ────────────────────────────────────────
+  {id:'n-landscape', year:2027, level:'national', obj:[2],
+   label:'Landscape Reviews', sub:'8 NCs — HDG (Obj 2)', type:'milestone',
+   desc:'Legislative landscape reviews completed in 8 national coalitions using Blueprint/Model Law assessment tool. Aligned with Africa Continental and Asia Regional frameworks ensuring comparable data.',
+   countries:'8 NC countries',
+   link:'↑ Feeds Africa Continental Framework and Asia Regional Framework'},
+
+  {id:'n-moh-commit', year:2027, level:'national', obj:[1],
+   label:'MoH Commits', sub:'legislation, 8 countries', type:'milestone',
+   desc:'MoH and Chair of Parliamentary Health Committee in 8 countries agree to develop digital health legislation with Transform Health by June 2027. MoU signed.',
+   countries:'Senegal, Kenya, India, Indonesia, Ecuador, Mexico, Tanzania, Ghana, Colombia',
+   link:'First formal government commitment · feeds GIDH country evidence'},
+
+  {id:'n-taxonomy-8', year:2027, level:'national', obj:[3],
+   label:'Taxonomy Adopted', sub:'8 countries', type:'milestone',
+   desc:'Digital health investment taxonomy adopted and used in 8 priority countries to support national budgeting and financial planning. Case studies produced for multilateral advocacy.',
+   countries:'8 priority countries',
+   link:'↑ Case studies drive multilateral agency adoption (Obj 3.3)'},
+
+  {id:'n-youth-cs', year:2027, level:'national', obj:[4],
+   label:'Youth & CS Mechanisms', sub:'all 9 NCs', type:'milestone',
+   desc:'Youth and civil society engagement mechanisms established in all 9 NC countries — youth networks, advisory groups and consultation platforms — by December 2027.',
+   countries:'All 9 NCs',
+   link:'Enables meaningful civil society participation across Obj 1–3'},
+
+  {id:'n-hdg-roadmaps', year:2027, level:'national', obj:[2],
+   label:'National HDG Roadmaps', sub:'15 countries', type:'milestone',
+   desc:'Government-owned national HDG action roadmaps developed and publicly launched in 15 countries. Each includes a dedicated youth section. Aligned with Africa Continental and Asia Regional frameworks.',
+   countries:'15 countries (all 9 NCs + 6 non-NCs)',
+   link:'↑ Demonstrates national ownership · feeds regional domestication plans'},
+
+  {id:'n-nc-reports', year:2027, level:'national', obj:[3],
+   label:'NC Accountability Reports', sub:'annual, 2027–2030', type:'milestone',
+   desc:'Annual accountability reports on digital health investment produced by 9 NC countries from 2027, using the investment taxonomy. 36 reports total across the grant period.',
+   countries:'All 9 NCs (annually)',
+   link:'↑ Feeds civil society shadow reports and global accountability campaign'},
+
+  {id:'n-parliament', year:2028, level:'national', obj:[1],
+   label:'Parliament Supported', sub:'legislation drafted, Mar 2028', type:'milestone',
+   desc:'Parliamentary Committees in 8 countries technically supported to draft digital health legislation by March 2028. Members of Parliament sensitised and briefed. Youth parliamentary engagement mechanisms established in 7 NCs.',
+   countries:'8 NCs',
+   link:'Translates WHO GSDH governance principles into national law'},
+
+  {id:'n-bill-passed', year:2028, level:'national', obj:[1],
+   label:'Digital Health Laws Passed', sub:'8 countries, Dec 2028', type:'outcome',
+   desc:'Digital Health Bill passed in Parliament and assented into law in 8 countries by December 2028. Operationalises WHO GSDH governance principles. Documented as GIDH country milestones.',
+   countries:'Senegal, Kenya, India, Indonesia, Ecuador, Mexico, Tanzania, Ghana',
+   link:'↑ Primary evidence for WHA-linked shadow reporting'},
+
+  {id:'n-taxonomy-14', year:2028, level:'national', obj:[3],
+   label:'Taxonomy: 14 Countries', sub:'+ 6 multilaterals', type:'milestone',
+   desc:'Digital health investment taxonomy adopted in 14 countries total by Dec 2028. Additionally, 6 multilateral agencies (World Bank, GIZ, Gates Foundation, Global Fund, Gavi, ADB) adopt the taxonomy — creating institutional demand for OECD DAC integration.',
+   countries:'14 countries + 6 multilateral agencies',
+   link:'↑ Multilateral adoption drives OECD DAC reform case'},
+
+  {id:'n-nc-capacity', year:2028, level:'national', obj:[1],
+   label:'NC Capacity Strengthened', sub:'Jun 2028', type:'milestone',
+   desc:'NC advocacy, campaigns and communications capacity strengthened through annual in-person Joint Learning Forum and bi-annual online capacity building. All 9 NCs covered.',
+   countries:'All 9 NCs',
+   link:'Enables effective national delivery across all objectives'},
+
+  {id:'n-regulations', year:2029, level:'national', obj:[1],
+   label:'Regulations Adopted', sub:'8 countries, Dec 2029', type:'milestone',
+   desc:'Regulations and implementation schedules for digital health legislation developed and adopted in 8 countries by December 2029. Civil society and youth formally included in TWG processes.',
+   countries:'8 NCs',
+   link:'↓ Triggered by Africa CF domestication plan and WHO GSDH standards'},
+
+  {id:'n-nc-accountability-review', year:2029, level:'national', obj:[1],
+   label:'NC Accountability Reviews', sub:'submitted to government', type:'milestone',
+   desc:'9 NCs review government implementation of digital health legislation and policies, submitting formal recommendations by December 2029. Independent consultants contracted for each review.',
+   countries:'All 9 NCs',
+   link:'↑ Data feeds annual civil society shadow report to WHA'},
+
+  {id:'n-hdg-15countries', year:2029, level:'national', obj:[2],
+   label:'HDG Reviews: 15 Countries', sub:'complete by 2029', type:'milestone',
+   desc:'National HDG legislative landscape reviews completed in 15 countries by 2029. Generates comparable gap data across Africa and Asia for continental and global framework monitoring.',
+   countries:'15 countries (9 NCs + 6 non-NCs)',
+   link:'↑ Feeds Africa Continental Framework domestication monitoring'},
+
+  {id:'n-hdg-laws-23', year:2030, level:'national', obj:[2],
+   label:'HDG Laws: 23 Countries', sub:'updated by Dec 2030', type:'outcome',
+   desc:'Health data governance laws and regulations developed or updated in 23 countries by December 2030. Aligned with WHA Resolution and Africa/Asia regional frameworks.',
+   countries:'23 countries across Africa, Asia, Latin America',
+   link:'↓ WHA Resolution + regional frameworks mandated this reform'},
+
+  {id:'n-taxonomy-20', year:2030, level:'national', obj:[3],
+   label:'Taxonomy: 20 Countries', sub:'by Dec 2030', type:'outcome',
+   desc:'Digital health investment taxonomy adopted and used in 20 countries to support national budgeting. Foundation for OECD DAC and SHA integration.',
+   countries:'20 countries',
+   link:'↑ Drives global financial tracking reform'},
+
+  {id:'n-sustainability', year:2030, level:'national', obj:[1],
+   label:'NC Sustainability Strategies', sub:'close-out by Dec 2030', type:'milestone',
+   desc:'NC Close-out Workshops completed and Sustainability Strategies developed in all 9 countries, co-designed with governments. Ensures civil society voice continues beyond 2030 within GIDH and regional HDG structures.',
+   countries:'All 9 NCs',
+   link:'Anchors NC work in WHO GSDH, GIDH and regional frameworks post-2030'},
+];
+
+// ── Connections (from, to, type: up/down, label) ──
+const CONNECTIONS = [
+  {from:'n-landscape',   to:'r-africa-endorsed', type:'up',   label:'National evidence'},
+  {from:'n-landscape',   to:'r-asia-developed',  type:'up',   label:'National evidence'},
+  {from:'r-africa-endorsed', to:'g-wha-hdg',    type:'up',   label:'AU momentum'},
+  {from:'r-asia-endorsed',   to:'g-wha-hdg',    type:'up',   label:'Asia momentum'},
+  {from:'g-wha-hdg',     to:'n-hdg-laws-23',    type:'down', label:'WHA mandate'},
+  {from:'g-who-gsdh',    to:'n-bill-passed',    type:'down', label:'Normative authority'},
+  {from:'n-nc-accountability-review', to:'g-shadow', type:'up', label:'NC evidence'},
+  {from:'n-taxonomy-14', to:'g-oecd',           type:'up',   label:'Investment reform'},
+  {from:'r-africa-dom',  to:'n-regulations',    type:'down', label:'CF domestication'},
+  {from:'r-africa-stress', to:'n-hdg-laws-23',  type:'down', label:'Standards guide reform'},
+  {from:'n-taxonomy-8',  to:'n-taxonomy-14',    type:'up',   label:'Scales up'},
+  {from:'r-prep-2026',  to:'r-africa-endorsed', type:'up',  label:'Scoping → framework'},
+  {from:'n-prep-2026',  to:'n-moh-commit',      type:'up',  label:'NC onboarding'},
+  {from:'r-monitoring-2029', to:'g-shadow',     type:'up',  label:'Regional data'},
+  {from:'g-wha-hdg',    to:'r-outcome-2030',    type:'down', label:'WHA norms'},
+];
+
+// ── Objective colours (left border on card) ───────
+const OBJ_COLORS = {1:'#2E75B6', 2:'#5ba4cf', 3:'#f09d51', 4:'#8aab5e', 5:'#a875c7'};
+const OBJ_LABELS = {1:'Obj 1',   2:'Obj 2',   3:'Obj 3',   4:'Obj 4',   5:'Obj 4/5'};
+
+// ════════════════════════════════════════════════════════
+// RENDER CARDS
+// ════════════════════════════════════════════════════════
+function objTag(objs){
+  return objs.map(o => `<span style="display:inline-block;background:${OBJ_COLORS[o]};color:#fff;border-radius:3px;padding:1px 5px;font-size:9px;font-weight:800;margin-right:2px;letter-spacing:.5px">${OBJ_LABELS[o]}</span>`).join('');
+}
+
+MILESTONES.forEach(m => {
+  const prefix = m.level === 'global' ? 'gc' : m.level === 'regional' ? 'rc' : 'nc';
+  const container = document.getElementById(`${prefix}-${m.year}`);
+  if (!container) return;
+
+  const card = document.createElement('div');
+  card.className = `card ${m.type}`;
+  card.id = `card-${m.id}`;
+  card.dataset.id = m.id;
+  card.dataset.obj = m.obj.join(',');
+  card.dataset.level = m.level;
+  card.style.borderLeft = `4px solid ${OBJ_COLORS[m.obj[0]]}`;
+
+  card.innerHTML = `
+    <div class="card-obj">${objTag(m.obj)}</div>
+    <div class="card-label">${m.label}</div>
+    <div class="card-sub">${m.sub}</div>
+  `;
+
+  card.addEventListener('mouseenter', e => showTooltip(e, m));
+  card.addEventListener('mousemove', e => moveTooltip(e));
+  card.addEventListener('mouseleave', () => hideTooltip());
+
+  container.appendChild(card);
+});
+
+// ════════════════════════════════════════════════════════
+// TOOLTIP
+// ════════════════════════════════════════════════════════
+const tt = document.getElementById('tooltip');
+function showTooltip(e, m){
+  document.getElementById('tt-title').textContent = m.label + (m.sub ? ' — ' + m.sub : '');
+  document.getElementById('tt-desc').textContent = m.desc;
+  document.getElementById('tt-countries').textContent = '📍 ' + m.countries;
+  document.getElementById('tt-link').textContent = m.link ? '⟷ ' + m.link : '';
+  tt.classList.add('visible');
+  moveTooltip(e);
+}
+function moveTooltip(e){
+  let x = e.clientX + 16, y = e.clientY - 10;
+  if (x + 310 > window.innerWidth) x = e.clientX - 320;
+  if (y + 200 > window.innerHeight) y = e.clientY - 200;
+  tt.style.left = x + 'px';
+  tt.style.top = y + 'px';
+}
+function hideTooltip(){ tt.classList.remove('visible'); }
+
+// ════════════════════════════════════════════════════════
+// DRAW ARROWS
+// ════════════════════════════════════════════════════════
+let arrowsVisible = true;
+
+function getCardRect(id){
+  const el = document.getElementById(`card-${id}`);
+  if (!el) return null;
+  const svgRect = document.getElementById('timeline-area').getBoundingClientRect();
+  const cr = el.getBoundingClientRect();
+  return {
+    cx: cr.left - svgRect.left + cr.width / 2,
+    top: cr.top - svgRect.top,
+    bottom: cr.top - svgRect.top + cr.height,
+    left: cr.left - svgRect.left,
+    right: cr.left - svgRect.left + cr.width,
+  };
+}
+
+function drawArrows(){
+  const svg = document.getElementById('arrows-svg');
+  // Sync SVG size to full timeline content height
+  const ta = document.getElementById('timeline-area');
+  svg.setAttribute('height', ta.scrollHeight);
+  // Remove old paths (keep defs)
+  [...svg.querySelectorAll('.arrow-path,.arrow-label-g')].forEach(el => el.remove());
+  if (!arrowsVisible) return;
+
+  CONNECTIONS.forEach(conn => {
+    const from = getCardRect(conn.from);
+    const to = getCardRect(conn.to);
+    if (!from || !to) return;
+
+    let x1, y1, x2, y2, cp1x, cp1y, cp2x, cp2y;
+
+    if (conn.type === 'up') {
+      // Start at top-center of "from", end at bottom-center of "to"
+      x1 = from.cx; y1 = from.top;
+      x2 = to.cx;   y2 = to.bottom + 4;
+      const dy = Math.abs(y1 - y2) * 0.4;
+      cp1x = x1; cp1y = y1 - dy;
+      cp2x = x2; cp2y = y2 + dy;
+    } else {
+      // Start at bottom-center of "from", end at top-center of "to"
+      x1 = from.cx; y1 = from.bottom;
+      x2 = to.cx;   y2 = to.top - 4;
+      const dy = Math.abs(y2 - y1) * 0.4;
+      cp1x = x1; cp1y = y1 + dy;
+      cp2x = x2; cp2y = y2 - dy;
+    }
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('class', `arrow-path ${conn.type === 'up' ? 'arrow-up' : 'arrow-down'}`);
+    path.setAttribute('d', `M${x1},${y1} C${cp1x},${cp1y} ${cp2x},${cp2y} ${x2},${y2}`);
+    path.setAttribute('marker-end', conn.type === 'up' ? 'url(#arrowhead-up)' : 'url(#arrowhead-down)');
+    svg.appendChild(path);
+
+    if (conn.label) {
+      const midX = (x1 + x2) / 2 + (cp1x - x1) * 0.15;
+      const midY = (y1 + y2) / 2;
+      const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+      g.setAttribute('class','arrow-label-g');
+      const bg = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      const lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+      lbl.setAttribute('class','arrow-label');
+      lbl.setAttribute('x', midX);
+      lbl.setAttribute('y', midY);
+      lbl.setAttribute('text-anchor','middle');
+      lbl.textContent = conn.label;
+      bg.setAttribute('x', midX - 30);
+      bg.setAttribute('y', midY - 10);
+      bg.setAttribute('width', 60);
+      bg.setAttribute('height', 13);
+      bg.setAttribute('fill','rgba(255,255,255,0.85)');
+      bg.setAttribute('rx', 3);
+      g.appendChild(bg);
+      g.appendChild(lbl);
+      svg.appendChild(g);
+    }
+  });
+}
+
+// ════════════════════════════════════════════════════════
+// FILTERS
+// ════════════════════════════════════════════════════════
+let activeObj = 'all', activeLevel = 'all';
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const filter = btn.dataset.filter;
+    const val = btn.dataset.val;
+    if (filter === 'obj') {
+      activeObj = val;
+      document.querySelectorAll('[data-filter="obj"]').forEach(b => b.classList.remove('active'));
+    } else {
+      activeLevel = val;
+      document.querySelectorAll('[data-filter="level"]').forEach(b => b.classList.remove('active'));
+    }
+    btn.classList.add('active');
+    applyFilters();
+    setTimeout(drawArrows, 50);
+  });
+});
+
+function applyFilters(){
+  document.querySelectorAll('.card').forEach(card => {
+    const cardObjs = card.dataset.obj.split(',');
+    const cardLevel = card.dataset.level;
+    const objMatch = activeObj === 'all'
+      || (activeObj === '45' && cardObjs.some(o => o === '4' || o === '5'))
+      || cardObjs.includes(activeObj);
+    const levelMatch = activeLevel === 'all' || cardLevel === activeLevel;
+    card.classList.toggle('dimmed', !(objMatch && levelMatch));
+  });
+}
+
+// ════════════════════════════════════════════════════════
+// TOGGLE ARROWS
+// ════════════════════════════════════════════════════════
+function toggleArrows(){
+  arrowsVisible = !arrowsVisible;
+  const btn = document.getElementById('toggle-arrows');
+  btn.textContent = arrowsVisible ? '— Hide Connections' : '⟶ Show Connections';
+  btn.classList.toggle('active', arrowsVisible);
+  drawArrows();
+}
+
+// ════════════════════════════════════════════════════════
+// THEORY OF CHANGE TOGGLE
+// ════════════════════════════════════════════════════════
+function toggleToc(){
+  const box = document.getElementById('toc-box');
+  const btn = document.getElementById('toc-toggle');
+  box.classList.toggle('hidden');
+  btn.textContent = box.classList.contains('hidden') ? '▶ Theory of Change' : '▼ Theory of Change';
+}
+
+// ════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════
+window.addEventListener('load', () => {
+  // Resize SVG to match timeline area
+  const ta = document.getElementById('timeline-area');
+  const svg = document.getElementById('arrows-svg');
+  const h = ta.scrollHeight;
+  svg.setAttribute('height', h);
+  drawArrows();
+});
+
+window.addEventListener('resize', () => {
+  setTimeout(drawArrows, 100);
+});
+</script>
+</body>
+</html>
