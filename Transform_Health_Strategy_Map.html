@@ -18,14 +18,11 @@ body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#f0f4f
 #logo-area p{font-size:13px;opacity:.85;margin-top:3px}
 #toc-toggle{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap;transition:all .18s}
 #toc-toggle:hover{background:rgba(255,255,255,.28)}
-#toc-box{margin-top:14px;background:rgba(255,255,255,.12);border-radius:8px;padding:12px 16px;font-size:13px;line-height:1.6;border-left:3px solid rgba(255,255,255,.5);max-height:500px;overflow-y:auto}
+#toc-box{margin-top:14px;background:rgba(255,255,255,.12);border-radius:8px;padding:12px 16px;font-size:13px;line-height:1.6;border-left:3px solid rgba(255,255,255,.5)}
 #toc-box.hidden{display:none}
 #toc-box strong{color:#BDD7EE}
-#toc-box p{margin-bottom:8px}
-#toc-box ul{margin-left:16px;margin-bottom:8px}
-#toc-box li{margin-bottom:4px}
 
-/* ── Controls ────────────────────────────── */
+/* ── Controls ────────────────────────── */
 #controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
 .ctrl-group{display:flex;gap:6px;align-items:center}
 .ctrl-label{font-size:11px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.5px}
@@ -44,25 +41,25 @@ body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#f0f4f
 /* ── Level labels ────────────────────────── */
 #level-labels{flex:0 0 90px;display:flex;flex-direction:column;border-right:2px solid #d0dae6;z-index:2}
 #level-labels .ll-spacer{height:40px;background:#f8fafc;border-bottom:1px solid #d0dae6}
-#level-labels .ll-phase-spacer{height:32px;background:#f8fafc;border-bottom:1px solid #d0dae6}
 .ll{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg)}
 .ll.global{background:#1F4E79;color:#fff;flex:0 0 220px;border-bottom:2px solid #163d5f}
 .ll.regional{background:#2E75B6;color:#fff;flex:0 0 165px;border-bottom:2px solid #1a5a96}
-.ll.national{background:#BDD7EE;color:#1F4E79;flex:1;border-bottom:none}
+.ll.national{background:#BDD7EE;color:#1F4E79;flex:1}
 
 /* ── Timeline area ───────────────────────── */
 #timeline-area{flex:1;min-width:900px;position:relative}
 
 /* ── Year headers ────────────────────────── */
-#year-headers{display:grid;grid-template-columns:120px 240px 240px 220px 220px;height:40px;border-bottom:1px solid #d0dae6;background:#f8fafc;position:sticky;top:0;z-index:10}
+#year-headers{display:grid;grid-template-columns:120px 240px 240px 220px 220px;height:40px;border-bottom:2px solid #d0dae6;background:#f8fafc;position:sticky;top:0;z-index:10}
 .yh{display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#1F4E79;border-right:1px solid #d0dae6;letter-spacing:.3px}
 .yh:last-child{border-right:none}
 .yh.active-year{background:#e8f1fa}
 
-/* ── Phase labels ────────────────────────── */
-#phase-labels{display:grid;grid-template-columns:120px 240px 240px 220px 220px;height:32px;background:#f0f4f8;border-bottom:2px solid #d0dae6;position:sticky;top:40px;z-index:9}
-.ph{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#555;border-right:1px solid #d0dae6;padding:4px 6px;text-align:center;line-height:1.2;letter-spacing:.3px}
+/* ── Phase headers ───────────────────────── */
+#phase-headers{display:grid;grid-template-columns:120px 240px 240px 220px 220px;height:50px;border-bottom:2px solid #d0dae6;background:#f8fafc;position:sticky;top:40px;z-index:9}
+.ph{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#1F4E79;border-right:1px solid #d0dae6;padding:8px 12px;text-align:center;line-height:1.3}
 .ph:last-child{border-right:none}
+.ph strong{display:block;font-size:13px;margin-bottom:2px}
 
 /* ── Bands ───────────────────────────────── */
 .band{display:grid;grid-template-columns:120px 240px 240px 220px 220px;position:relative}
@@ -78,11 +75,8 @@ body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#f0f4f
 .card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(31,78,121,.18);z-index:20}
 .card.milestone{background:#E2EFDA;border-color:#a8c8a8}
 .card.outcome{background:#F4B942;border-color:#d4961a;color:#1a1a1a}
-.card.dimmed{opacity:.15;transform:none !important;box-shadow:none !important;pointer-events:none}
-.card.highlighted{box-shadow:0 0 0 3px #1F4E79;z-index:25;transform:translateY(-2px)}
-.card.connection-active{opacity:1;box-shadow:0 4px 16px rgba(31,78,121,.25)}
-.card.connection-active.milestone{box-shadow:0 4px 16px rgba(112,168,116,.35)}
-.card.connection-active.outcome{box-shadow:0 4px 16px rgba(244,185,66,.35)}
+.card.dimmed{opacity:.2;transform:none !important;box-shadow:none !important}
+.card.highlighted{box-shadow:0 0 0 3px #F4B942;z-index:25}
 
 .card-obj{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:#666;margin-bottom:3px}
 .card-label{font-size:11px;font-weight:700;color:#1F4E79;line-height:1.25}
@@ -91,24 +85,23 @@ body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#f0f4f
 .card.outcome .card-sub{color:#3a2800}
 .card-countries{font-size:9px;color:#888;margin-top:3px;font-style:italic}
 
-/* ── Tooltip ──────��──────────────────────── */
-#tooltip{position:fixed;background:#1F4E79;color:#fff;border-radius:10px;padding:12px 16px;font-size:12px;max-width:320px;z-index:1000;pointer-events:none;opacity:0;transition:opacity .18s;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+/* ── Tooltip ──────────────────────────── */
+#tooltip{position:fixed;background:#1F4E79;color:#fff;border-radius:10px;padding:12px 16px;font-size:12px;max-width:300px;z-index:1000;pointer-events:none;opacity:0;transition:opacity .18s;box-shadow:0 4px 16px rgba(31,78,121,.3)}
 #tooltip.visible{opacity:1}
 #tooltip .tt-title{font-weight:800;font-size:13px;margin-bottom:6px;color:#BDD7EE}
-#tooltip .tt-desc{margin-bottom:8px;color:#e8f1fa;line-height:1.4;font-size:11px}
-#tooltip .tt-countries{font-size:10px;color:#9fc5e8;font-style:italic;margin-bottom:6px}
-#tooltip .tt-link{font-size:11px;color:#E2EFDA;margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.2);font-weight:600}
+#tooltip .tt-desc{margin-bottom:6px;color:#e8f1fa}
+#tooltip .tt-countries{font-size:11px;color:#9fc5e8;font-style:italic}
+#tooltip .tt-link{font-size:11px;color:#E2EFDA;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.2)}
 
 /* ── SVG arrows ──────────────────────────── */
 #arrows-svg{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible}
-.arrow-path{stroke-width:2.5;fill:none;opacity:0.6;transition:opacity .2s, stroke-width .2s}
-.arrow-path.active{opacity:1;stroke-width:3.5}
-.arrow-up{stroke:#70a874}
+.arrow-path{stroke-width:2;fill:none}
+.arrow-up{stroke:#70a874;stroke-dasharray:none}
 .arrow-down{stroke:#F4B942;stroke-dasharray:6 3}
-.arrow-label{font-size:9px;fill:#555;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;font-weight:600}
+.arrow-label{font-size:9px;fill:#555;font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
 
 /* ── Impact panel ────────────────────────── */
-#impact-panel{flex:0 0 268px;background:linear-gradient(170deg,#1F4E79 0%,#163d5f 100%);color:#fff;padding:20px 16px;border-left:2px solid #163d5f;display:flex;flex-direction:column;gap:0;border-radius:0 12px 12px 0;overflow-y:auto}
+#impact-panel{flex:0 0 268px;background:linear-gradient(170deg,#1F4E79 0%,#163d5f 100%);color:#fff;padding:20px 16px;border-left:2px solid #163d5f;display:flex;flex-direction:column;gap:0;border-radius:0}
 #impact-headline{font-size:15px;font-weight:800;line-height:1.25;color:#fff;margin-bottom:4px}
 #impact-sub{font-size:11px;color:#9fc5e8;margin-bottom:14px;line-height:1.4}
 .country-row{display:flex;align-items:baseline;gap:6px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.1)}
@@ -153,19 +146,12 @@ body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#f0f4f
   <div id="header-top">
     <div id="logo-area">
       <h1>Transform Health Coalition · Strategy Map 2027–2030</h1>
-      <p>National · Regional · Global Engagement</p>
+      <p>Fondation Botnar Grant Application &nbsp;|&nbsp; National · Regional · Global Engagement</p>
     </div>
     <button id="toc-toggle" onclick="toggleToc()">▼ Theory of Change</button>
   </div>
   <div id="toc-box">
-    <p><strong>How Transform Health Creates Lasting Change</strong></p>
-    <p>Transform Health works at <strong>three interconnected levels simultaneously</strong>, creating a powerful multiplier effect:</p>
-    <ul>
-      <li><strong>National coalitions</strong> build enabling environments — laws, regulations, investment accountability, and workforce development — ensuring digital health is sustainable at country level.</li>
-      <li><strong>Regional coalitions</strong> align and scale national progress through continental frameworks, creating peer learning and harmonising standards across Africa and Asia.</li>
-      <li><strong>Global coordination</strong> drives normative change, connects evidence across borders, and amplifies impact to reach 1 billion+ people by 2030.</li>
-    </ul>
-    <p>Each level reinforces the others: National achievements feed regional frameworks, which inform global standards that flow back down to strengthen national work. Working with 230+ partners including governments, civil society, multilateral agencies, and technical experts, we ensure this work is mutually reinforcing and contributes to lasting, systemic change in digital health for universal health coverage.</p>
+    Transform Health works at <strong>three levels simultaneously</strong>. <strong>National coalitions</strong> build enabling environments — laws, regulations, investment accountability, workforce development and civil society engagement. <strong>Regional institutions</strong> develop continental standards and provide technical support. <strong>Global actors</strong> align international norms and financing. By 2030, the coalition will have created the conditions for digital health to scale equitably across 30+ countries, serving over 1 billion people.
   </div>
 </div>
 
@@ -197,7 +183,6 @@ body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#f0f4f
   <!-- Level labels -->
   <div id="level-labels">
     <div class="ll-spacer"></div>
-    <div class="ll-phase-spacer"></div>
     <div class="ll global">Global</div>
     <div class="ll regional">Regional</div>
     <div class="ll national">National</div>
@@ -215,13 +200,13 @@ body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#f0f4f
       <div class="yh">2030</div>
     </div>
 
-    <!-- Phase labels -->
-    <div id="phase-labels">
-      <div class="ph" style="background:#f0f4f8"></div>
-      <div class="ph" style="background:#E8F4F0">Policy Traction</div>
-      <div class="ph" style="background:#E8F4F0">Policy Traction</div>
-      <div class="ph" style="background:#F0E8F4">System Embedding</div>
-      <div class="ph" style="background:#F4F0E8">Consolidation, Implementation &amp; Transition</div>
+    <!-- Phase headers -->
+    <div id="phase-headers">
+      <div class="ph"></div>
+      <div class="ph" style="background:#E8F4F0"><strong>2026–2027:</strong> Policy Traction</div>
+      <div class="ph" style="background:#E8F4F0"><strong>2026–2027:</strong> Policy Traction</div>
+      <div class="ph" style="background:#F0E8F4"><strong>2028–2029:</strong> System Embedding</div>
+      <div class="ph" style="background:#F4F0E8"><strong>2030:</strong> Consolidation, Implementation &amp; Transition</div>
     </div>
 
     <!-- GLOBAL band -->
@@ -295,9 +280,9 @@ body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#f0f4f
   <strong style="color:#1F4E79;margin-right:4px">Legend:</strong>
   <div class="leg-item"><div class="leg-dot" style="background:#E2EFDA;border:1.5px solid #a8c8a8"></div> Milestone</div>
   <div class="leg-item"><div class="leg-dot" style="background:#F4B942;border:1.5px solid #d4961a"></div> Key Outcome</div>
-  <div class="leg-item" style="margin-left:8px"><svg width="24" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#70a874" stroke-width="2"/><polygon points="20,2 24,5 20,8" fill="#70a874"/></svg> Supports</div>
-  <div class="leg-item"><svg width="24" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#F4B942" stroke-width="2" stroke-dasharray="4 2"/><polygon points="20,2 24,5 20,8" fill="#F4B942"/></svg> Enables</div>
-  <div class="leg-item" style="margin-left:8px;color:#888;font-size:11px">Hover cards to explore connections</div>
+  <div class="leg-item" style="margin-left:8px"><svg width="24" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#70a874" stroke-width="2"/><polygon points="20,2 24,5 20,8" fill="#70a874"/></svg> Enabler</div>
+  <div class="leg-item"><svg width="24" height="10"><line x1="0" y1="5" x2="24" y2="5" stroke="#F4B942" stroke-width="2" stroke-dasharray="4 2"/><polygon points="20,2 24,5 20,8" fill="#F4B942"/></svg> Impact</div>
+  <div class="leg-item" style="margin-left:8px;color:#888;font-size:11px">Hover cards for full detail · Click objective buttons to filter</div>
 </div>
 
 </div><!-- /app -->
@@ -318,13 +303,13 @@ const MILESTONES = [
   // ── 2026 PREPARATION PERIOD ─────────────────────────
   {id:'g-prep-2026', year:2026, level:'global', obj:[5],
    label:'Coalition Foundations', sub:'strategy & partnerships set', type:'milestone',
-   desc:'Transform Health establishes the global coalition architecture for 2027–2030: Roadmap goals agreed with 230+ partners, cluster group structure designed, Digital Health Week programming finalised.',
+   desc:'Transform Health establishes the global coalition architecture for 2027–2030: Roadmap goals agreed with 230+ partners, cluster group structure designed, Digital Health Week programming plan finalized.',
    countries:'Global — 230+ coalition partners',
-   link:'↑ Lays groundwork for 2027 activation of 10+ cluster groups'},
+   link:'Lays groundwork for 2027 activation of 10+ cluster groups'},
 
   {id:'r-prep-2026', year:2026, level:'regional', obj:[2],
    label:'Regional Scoping', sub:'Africa & Asia frameworks begun', type:'milestone',
-   desc:'Scoping and consultations begin for both the Africa Continental and Asia Regional Health Data Governance Frameworks. Africa CDC and WHO WPRO/SEARO engaged as lead institutional partners. Draft frameworks tabled by December 2026.',
+   desc:'Scoping and consultations begin for both the Africa Continental and Asia Regional Health Data Governance Frameworks. Africa CDC and WHO WPRO/SEARO engaged as lead institutional partners. Draft frameworks ready for 2027 consultation cycle.',
    countries:'Africa (Africa CDC / AU) · Asia (WHO WPRO, SEARO)',
    link:'↑ Feeds fully developed frameworks in early 2027'},
 
@@ -332,7 +317,7 @@ const MILESTONES = [
    label:'NC Preparation', sub:'9 NCs onboarded', type:'milestone',
    desc:'Grant preparation period: all 9 national coalitions (Senegal, Kenya, India-Rajasthan, Indonesia, Ecuador, Mexico, Tanzania, Ghana, Colombia) formally onboarded. NC coordinators appointed, MoUs signed with governments.',
    countries:'9 NCs: Senegal, Kenya, India (Rajasthan), Indonesia, Ecuador, Mexico, Tanzania, Ghana, Colombia',
-   link:'↑ Enables formal MoH commitments in all 9 NCs by June 2027'},
+   link:'Enables formal MoH commitments in all 9 NCs by June 2027'},
 
   // ── GLOBAL ──────────────────────────────────────────
   {id:'g-who-gsdh', year:2027, level:'global', obj:[1],
@@ -351,13 +336,13 @@ const MILESTONES = [
    label:'Roadmap Mapping', sub:'200+ orgs, Dec 2027', type:'milestone',
    desc:'Public Roadmap to 2030 mapping page lists 200+ organisations across all 5 goals, updated quarterly. 10+ goal-based cluster groups activated, each delivering at least one output.',
    countries:'230+ coalition partners globally',
-   link:'↑ Platform for national coalition outputs to reach global audience'},
+   link:'Platform for national coalition outputs to reach global audience'},
 
   {id:'g-clusters', year:2027, level:'global', obj:[5],
    label:'10+ Cluster Groups', sub:'activated, Dec 2027', type:'milestone',
    desc:'At least 10 goal-based cluster groups activated at national and global levels, each delivering at least one publicly available output by December 2027, spanning all 5 Roadmap goals.',
    countries:'Global coalition',
-   link:'↑ Aggregates national outputs into collective global advocacy'},
+   link:'Aggregates national outputs into collective global advocacy'},
 
   {id:'g-cs-mech', year:2028, level:'global', obj:[1],
    label:'CS Accountability', sub:'mechanism piloted', type:'milestone',
@@ -387,7 +372,7 @@ const MILESTONES = [
    label:'70% Coalition Active', sub:'collective action', type:'outcome',
    desc:'70% of Transform Health\'s 230 coalition partners (161 organisations) actively engaged and participating in collective action around the 5 Roadmap goals by December 2029.',
    countries:'230+ partners globally',
-   link:'↑ Reflects strength of national-to-global pipeline'},
+   link:'Reflects strength of national-to-global pipeline'},
 
   {id:'g-accountability-campaign', year:2030, level:'global', obj:[5],
    label:'Global Accountability Campaign', sub:'7M reach, 2029–2030', type:'outcome',
@@ -455,7 +440,7 @@ const MILESTONES = [
    label:'MoH Commits', sub:'legislation, 8 countries', type:'milestone',
    desc:'MoH and Chair of Parliamentary Health Committee in 8 countries agree to develop digital health legislation with Transform Health by June 2027. MoU signed.',
    countries:'Senegal, Kenya, India, Indonesia, Ecuador, Mexico, Tanzania, Ghana, Colombia',
-   link:'↑ First formal government commitment · feeds GIDH country evidence'},
+   link:'First formal government commitment · feeds GIDH country evidence'},
 
   {id:'n-taxonomy-8', year:2027, level:'national', obj:[3],
    label:'Taxonomy Adopted', sub:'8 countries', type:'milestone',
@@ -467,7 +452,7 @@ const MILESTONES = [
    label:'Youth & CS Mechanisms', sub:'all 9 NCs', type:'milestone',
    desc:'Youth and civil society engagement mechanisms established in all 9 NC countries — youth networks, advisory groups and consultation platforms — by December 2027.',
    countries:'All 9 NCs',
-   link:'↑ Enables meaningful civil society participation across Obj 1–3'},
+   link:'Enables meaningful civil society participation across Obj 1–3'},
 
   {id:'n-hdg-roadmaps', year:2027, level:'national', obj:[2],
    label:'National HDG Roadmaps', sub:'15 countries', type:'milestone',
@@ -483,9 +468,9 @@ const MILESTONES = [
 
   {id:'n-parliament', year:2028, level:'national', obj:[1],
    label:'Parliament Supported', sub:'legislation drafted, Mar 2028', type:'milestone',
-   desc:'Parliamentary Committees in 8 countries technically supported to draft digital health legislation by March 2028. Members of Parliament sensitised and briefed. Youth parliamentary engagement model piloted.',
+   desc:'Parliamentary Committees in 8 countries technically supported to draft digital health legislation by March 2028. Members of Parliament sensitised and briefed. Youth parliamentary engagement mobilised.',
    countries:'8 NCs',
-   link:'↑ Translates WHO GSDH governance principles into national law'},
+   link:'Translates WHO GSDH governance principles into national law'},
 
   {id:'n-bill-passed', year:2028, level:'national', obj:[1],
    label:'Digital Health Laws Passed', sub:'8 countries, Dec 2028', type:'outcome',
@@ -503,7 +488,7 @@ const MILESTONES = [
    label:'NC Capacity Strengthened', sub:'Jun 2028', type:'milestone',
    desc:'NC advocacy, campaigns and communications capacity strengthened through annual in-person Joint Learning Forum and bi-annual online capacity building. All 9 NCs covered.',
    countries:'All 9 NCs',
-   link:'↑ Enables effective national delivery across all objectives'},
+   link:'Enables effective national delivery across all objectives'},
 
   {id:'n-regulations', year:2029, level:'national', obj:[1],
    label:'Regulations Adopted', sub:'8 countries, Dec 2029', type:'milestone',
@@ -539,7 +524,7 @@ const MILESTONES = [
    label:'NC Sustainability Strategies', sub:'close-out by Dec 2030', type:'milestone',
    desc:'NC Close-out Workshops completed and Sustainability Strategies developed in all 9 countries, co-designed with governments. Ensures civil society voice continues beyond 2030 within GIDH and regional frameworks.',
    countries:'All 9 NCs',
-   link:'↑ Anchors NC work in WHO GSDH, GIDH and regional frameworks post-2030'},
+   link:'Anchors NC work in WHO GSDH, GIDH and regional frameworks post-2030'},
 ];
 
 // ── Connections (from, to, type: up/down, label) ──
@@ -591,68 +576,12 @@ MILESTONES.forEach(m => {
     <div class="card-sub">${m.sub}</div>
   `;
 
-  card.addEventListener('mouseenter', e => {
-    showTooltip(e, m);
-    highlightConnections(m.id);
-  });
+  card.addEventListener('mouseenter', e => showTooltip(e, m));
   card.addEventListener('mousemove', e => moveTooltip(e));
-  card.addEventListener('mouseleave', () => {
-    hideTooltip();
-    clearConnectionHighlight();
-  });
+  card.addEventListener('mouseleave', () => hideTooltip());
 
   container.appendChild(card);
 });
-
-// ════════════════════════════════════════════════════════
-// CONNECTION HIGHLIGHTING
-// ════════════════════════════════════════════════════════
-function highlightConnections(cardId) {
-  const allCards = document.querySelectorAll('.card');
-  const relatedIds = new Set([cardId]);
-  
-  // Find all connected cards
-  CONNECTIONS.forEach(conn => {
-    if (conn.from === cardId) {
-      relatedIds.add(conn.to);
-    } else if (conn.to === cardId) {
-      relatedIds.add(conn.from);
-    }
-  });
-
-  allCards.forEach(card => {
-    const id = card.dataset.id;
-    if (relatedIds.has(id)) {
-      card.classList.add('connection-active');
-    } else {
-      card.classList.add('dimmed');
-    }
-  });
-
-  // Highlight related arrow paths
-  const svg = document.getElementById('arrows-svg');
-  const paths = svg.querySelectorAll('.arrow-path');
-  paths.forEach(path => {
-    path.classList.remove('active');
-    // Check if this path connects to our card
-    CONNECTIONS.forEach((conn, idx) => {
-      if ((conn.from === cardId || conn.to === cardId) && idx === Array.from(paths).indexOf(path)) {
-        path.classList.add('active');
-      }
-    });
-  });
-}
-
-function clearConnectionHighlight() {
-  const allCards = document.querySelectorAll('.card');
-  allCards.forEach(card => {
-    card.classList.remove('dimmed', 'connection-active');
-  });
-  
-  const svg = document.getElementById('arrows-svg');
-  const paths = svg.querySelectorAll('.arrow-path');
-  paths.forEach(path => path.classList.remove('active'));
-}
 
 // ════════════════════════════════════════════════════════
 // TOOLTIP
@@ -662,13 +591,13 @@ function showTooltip(e, m){
   document.getElementById('tt-title').textContent = m.label + (m.sub ? ' — ' + m.sub : '');
   document.getElementById('tt-desc').textContent = m.desc;
   document.getElementById('tt-countries').textContent = '📍 ' + m.countries;
-  document.getElementById('tt-link').textContent = m.link ? '🔗 ' + m.link : '';
+  document.getElementById('tt-link').textContent = m.link ? '⟷ ' + m.link : '';
   tt.classList.add('visible');
   moveTooltip(e);
 }
 function moveTooltip(e){
   let x = e.clientX + 16, y = e.clientY - 10;
-  if (x + 330 > window.innerWidth) x = e.clientX - 340;
+  if (x + 310 > window.innerWidth) x = e.clientX - 320;
   if (y + 200 > window.innerHeight) y = e.clientY - 200;
   tt.style.left = x + 'px';
   tt.style.top = y + 'px';
@@ -679,7 +608,6 @@ function hideTooltip(){ tt.classList.remove('visible'); }
 // DRAW ARROWS
 // ════════════════════════════════════════════════════════
 let arrowsVisible = true;
-let arrowPathIndex = 0;
 
 function getCardRect(id){
   const el = document.getElementById(`card-${id}`);
@@ -697,13 +625,13 @@ function getCardRect(id){
 
 function drawArrows(){
   const svg = document.getElementById('arrows-svg');
+  // Sync SVG size to full timeline content height
   const ta = document.getElementById('timeline-area');
   svg.setAttribute('height', ta.scrollHeight);
-  
+  // Remove old paths (keep defs)
   [...svg.querySelectorAll('.arrow-path,.arrow-label-g')].forEach(el => el.remove());
   if (!arrowsVisible) return;
 
-  arrowPathIndex = 0;
   CONNECTIONS.forEach(conn => {
     const from = getCardRect(conn.from);
     const to = getCardRect(conn.to);
@@ -712,12 +640,14 @@ function drawArrows(){
     let x1, y1, x2, y2, cp1x, cp1y, cp2x, cp2y;
 
     if (conn.type === 'up') {
+      // Start at top-center of "from", end at bottom-center of "to"
       x1 = from.cx; y1 = from.top;
       x2 = to.cx;   y2 = to.bottom + 4;
       const dy = Math.abs(y1 - y2) * 0.4;
       cp1x = x1; cp1y = y1 - dy;
       cp2x = x2; cp2y = y2 + dy;
     } else {
+      // Start at bottom-center of "from", end at top-center of "to"
       x1 = from.cx; y1 = from.bottom;
       x2 = to.cx;   y2 = to.top - 4;
       const dy = Math.abs(y2 - y1) * 0.4;
@@ -729,7 +659,6 @@ function drawArrows(){
     path.setAttribute('class', `arrow-path ${conn.type === 'up' ? 'arrow-up' : 'arrow-down'}`);
     path.setAttribute('d', `M${x1},${y1} C${cp1x},${cp1y} ${cp2x},${cp2y} ${x2},${y2}`);
     path.setAttribute('marker-end', conn.type === 'up' ? 'url(#arrowhead-up)' : 'url(#arrowhead-down)');
-    path.dataset.connIndex = arrowPathIndex;
     svg.appendChild(path);
 
     if (conn.label) {
@@ -744,18 +673,16 @@ function drawArrows(){
       lbl.setAttribute('y', midY);
       lbl.setAttribute('text-anchor','middle');
       lbl.textContent = conn.label;
-      bg.setAttribute('x', midX - 32);
-      bg.setAttribute('y', midY - 11);
-      bg.setAttribute('width', 64);
-      bg.setAttribute('height', 14);
-      bg.setAttribute('fill','rgba(255,255,255,0.9)');
+      bg.setAttribute('x', midX - 30);
+      bg.setAttribute('y', midY - 10);
+      bg.setAttribute('width', 60);
+      bg.setAttribute('height', 13);
+      bg.setAttribute('fill','rgba(255,255,255,0.85)');
       bg.setAttribute('rx', 3);
       g.appendChild(bg);
       g.appendChild(lbl);
       svg.appendChild(g);
     }
-    
-    arrowPathIndex++;
   });
 }
 
@@ -818,6 +745,7 @@ function toggleToc(){
 // INIT
 // ════════════════════════════════════════════════════════
 window.addEventListener('load', () => {
+  // Resize SVG to match timeline area
   const ta = document.getElementById('timeline-area');
   const svg = document.getElementById('arrows-svg');
   const h = ta.scrollHeight;
